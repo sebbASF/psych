@@ -7,15 +7,15 @@ on:
 
 jobs:
   ruby:
-    name: ${{ matrix.ruby }} (timeout ${{ matrix.timeout }})
+    name: ${{ matrix.ruby }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
        include:
-         - ruby: 3.1
+        #  - ruby: 3.1
          - ruby: jruby-9.3
-         - ruby: jruby-9.2
+        #  - ruby: jruby-9.2
     steps:
     - name: Psych 5.0.0 needs libyaml-dev
       run: |
@@ -24,11 +24,11 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
-        # rubygems: 3.2.3
-        # bundler-cache: true
-    - name: Install dependencies
-      run: |
-        bundle install
+        rubygems: 3.2.3
+        bundler-cache: true
+    # - name: Install dependencies
+    #   run: |
+    #     bundle install
     - name: Show psych
       run: |
         gem list psych
