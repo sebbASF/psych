@@ -1,0 +1,34 @@
+name: Adhoc tests
+
+on:
+  workflow_dispatch:
+
+  push:
+
+jobs:
+  ruby:
+    name: ${{ matrix.ruby }} (timeout ${{ matrix.timeout }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+       include:
+         - ruby: 3.1
+         - ruby: jruby-9.3
+         - ruby: jruby-9.2
+    steps:
+    - name: Psych 5.0.0 needs libyaml-dev
+      run: |
+        sudo apt-get install libyaml-dev
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        # rubygems: 3.2.3
+        # bundler-cache: true
+    - name: Install dependencies
+      run: |
+        bundle install
+    - name: Show psych
+      run: |
+        gem list psych
